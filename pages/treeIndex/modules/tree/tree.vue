@@ -56,7 +56,7 @@
 			</view>
 			<view class="footer-right" @tap="handleConfirm"> 完成 </view>
 		</view>
-		<tree-popup ref="popupRef" :selectData="selectData"></tree-popup>
+		<tree-popup ref="popupRef" v-model:modelValue="selectData"></tree-popup>
 	</view>
 </template>
 
@@ -77,6 +77,7 @@
 	const selectData = ref([])
 	const topics = ref([])
 	const props = defineProps(basicProps)
+	console.log('props',props);
 	const popupRef = ref<InstanceType<typeof treePopup> | null>(null)
 	const isRadioSelect = computed(() => {
 		return (item) => {
@@ -115,7 +116,7 @@
 			[props.label]: "全部",
 			children: props.treeNode
 		}];
-		tree.value = Object.freeze(props.treeNode);
+		tree.value = props.treeNode;
 	}
 
 	function handleConfirm() {
@@ -140,7 +141,7 @@
 		// const relativeNode = this.getRelativeNode(flats,key)
 		// _topics.push(...relativeNode)
 		topics.value = _topics;
-		tree.value = Object.freeze(_topics[_topics.length - 1][props.children]);
+		tree.value = _topics[_topics.length - 1][props.children];
 		props.checkStrictly && handleTreeChecked();
 	}
 	// 递归遍历找到回显数据 sonNode子节点, key 回显数据的唯一标识，map找到的子节点所有关联父节点集合
@@ -269,8 +270,11 @@
 			item.halfChecked = false;
 			// 保存路径
 			item.path = path
+			
+			console.log('item',item, item.checked);
 			return
 		}
+		
 		// 关联子级/取消关联子级
 		item.checked || item.halfChecked ? handleCancelRelativeNode(item) : selectData.value = selectData.value.concat(handleSelectRelativeNode(item, path))
 		// 全选状态
@@ -286,7 +290,7 @@
 		if (!nodes.checked && !nodes.halfChecked) {
 			map.push(nodes);
 		}
-		if (nodes[props.children] && nodes[props].length) {
+		if (nodes[props.children] && nodes[props.children].length) {
 			for (var i = 0; i < nodes[props.children].length; i++) {
 				const node = nodes[props.children][i];
 				const pathNode = {
