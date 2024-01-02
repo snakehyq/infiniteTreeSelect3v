@@ -1,9 +1,12 @@
-import { PropType } from 'vue'
-interface ITreeNode {
-	[propName: string]: any;
-}
+import { ExtractPropTypes, PropType } from 'vue'
+import { definePropType } from '@/types/props'
+import { mutable } from '@/utils/typeScripts.ts'
 export const basicProps = {
 	isCheck: {
+		type: Boolean as PropType<boolean>,
+		default: false
+	},
+	showSearch: {
 		type: Boolean as PropType<boolean>,
 		default: false
 	},
@@ -13,8 +16,8 @@ export const basicProps = {
 		default: "id",
 	},
 	treeNode: {
-		type: Array as PropType<ITreeNode[]>,
-		default: () => [],
+		type:  definePropType<Record<string, unknown>[]>([Array]),
+		default: () => mutable([]),
 	},
 	number: {
 		type: Number as PropType<number>,
@@ -49,7 +52,14 @@ export const basicProps = {
 	},
 	// 回显的数据
 	feedBackList: {
-		type: Array as PropType<ITreeNode[]>,
-		default: () => [],
+		type:  definePropType<Record<string, unknown>[]>([Array]),
+		default: () => mutable([]),
 	},
+	// 每项高度
+	itemSize: {
+		type: Number as PropType<number>,
+		default: 40
+	}
 }
+
+export type basicPropsType = ExtractPropTypes<typeof basicProps>

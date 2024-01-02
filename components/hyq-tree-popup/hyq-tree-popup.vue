@@ -26,8 +26,8 @@
 		popupEmits
 	} from './props'
 	import { ref } from 'vue'
-	import { UPDATE_MODEL_EVENT } from '../../../../constants/event'
-	import { useDefer } from '../hooks/useDefer.ts'
+	import { UPDATE_MODEL_EVENT } from '@/constants/event'
+	import { useDefer } from './hooks/useDefer.ts'
 	const props = defineProps(basicProps)
 	const popup = ref(null)
 	const emit = defineEmits(popupEmits)

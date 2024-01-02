@@ -1,6 +1,6 @@
 import { PropType } from 'vue'
-import { UPDATE_MODEL_EVENT } from '../../../../constants/event'
-import { isArray } from '../../../../utils/types'
+import { UPDATE_MODEL_EVENT } from '@/constants/event'
+import { isArray } from '@/utils/types'
 
 interface ITreeNode {
 	[propName: string]: any;

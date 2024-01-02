@@ -1,13 +1,15 @@
 <template>
 	<view>
-		<infinite-tree v-bind="props" :tree-node="treeNode" :feed-back-list="feedBackList" :is-check="true"
-			@handleConfirm="handleConfirm"></infinite-tree>
+		<hyq-tree :label="props.label" :children="props.children" :key-code="props.keyCode" :has-path="props.hasPath"
+			:nodes="props.nodes" :multiple="props.multiple" :checkStrictly="props.checkStrictly" :tree-node="treeNode"
+			:feed-back-list="feedBackList" is-check show-search @handleConfirm="handleConfirm"
+			@confirmSearch="confirmSearch"></hyq-tree>
 	</view>
 </template>
 
 <script setup lang="ts">
 	import {
-		ref
+		ref,
 	} from 'vue'
 	import {
 		onLoad
@@ -15,14 +17,16 @@
 	import {
 		treeNode
 	} from './data.js'
-	import infiniteTree from '../tree/tree'
+	import hyqTree from '@/components/hyq-tree/hyq-tree.vue'
 	const props = ref({})
 	const feedBackList = ref([])
-	const handleConfirm = (val) => {
-		// 获取上一个页面
-		var pages = getCurrentPages(); //当前页面栈
-		var beforePage = pages[pages.length - 2]; //获取上一个页面实例对象
-		beforePage.$vm.setConfirmData(val); //触发上一个页面中的update方法
+	function handleConfirm(val: any) {
+		uni.$emit('selectSuccess',{value: val})
+		uni.navigateBack()
+	}
+
+	const confirmSearch = (val) => {
+		console.log('val', val)
 	}
 	onLoad((options) => {
 		// #ifdef H5

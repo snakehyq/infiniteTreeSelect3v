@@ -65,9 +65,16 @@
 			url: "/pages/treeIndex/modules/choose/choose?prop=" + prop + '&data=' + data
 		})
 	}
-	const setConfirmData = (data) => {
+	uni.$on('selectSuccess',(data)=>{
+		console.log(68, data.value)
+		setConfirmData(data.value)
+	})
+	function setConfirmData(data) {
 		selectData.value = data
 	}
+	defineExpose({
+		setConfirmData
+	})
 </script>
 
 <style scoped>
